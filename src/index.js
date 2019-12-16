@@ -64,8 +64,7 @@ router.route('/getResume').put((req, res) => {
         var stat = fs.statSync(output);
         res.setHeader('Content-Length', stat.size);
         res.setHeader('Content-Type', 'application/pdf');
-        res.setHeader('Access-Control-Expose-Headers','Content-Disposition');
-        res.setHeader('Content-Disposition', 'attachment; filename=venkatesh_kannan.pdf');
+        res.setHeader('Content-Disposition', 'attachment; filename=resume.pdf');
         file.pipe(res);
     })
 });
