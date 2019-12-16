@@ -68,7 +68,7 @@ res.send('Hello there')
 });
 
 router.route('/getResume').get((req, res) => {
-    res.send('Hello there. Method ERROR.')
+    res.redirect('https://venkatesh-kannan.web.app/')
     });
 
 app.use('/', router);
