@@ -47,7 +47,7 @@ router.route('/getResume').put((req, res) => {
         const pdfDoc = new HummusRecipe(src, output);
         pdfDoc
             .editPage(1)
-            .text(diff, 378, 68, {
+            .text(diff, 408, 99, {
                 color: '#000000',
                 fontSize: 9,
                 font: 'Arial',
