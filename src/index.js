@@ -63,6 +63,13 @@ router.route('/getResume').put((req, res) => {
     })
 });
 
+router.route('/').get((req, res) => {
+res.send('Hello there')
+});
+
+router.route('/getResume').get((req, res) => {
+    res.send('Hello there. Method ERROR.')
+    });
 
 app.use('/', router);
 
