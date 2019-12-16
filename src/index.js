@@ -14,6 +14,8 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
+    res.header('Content-Type', 'application/pdf');
+    res.header('Access-Control-Expose-Headers','Content-Disposition');
     next();
 });
 
@@ -30,10 +32,15 @@ router.route('/getResume').put((req, res) => {
 
     function downloadPDF(pdfURL, outputFilename) {
         src = path.join(__dirname, outputFilename);
-        return request.get({ uri: pdfURL, encoding: null }).then(dta => {
-            fs.writeFileSync(src, dta);
-            return true;
-        });
+        try {
+            return request.get({ uri: 'https://storage.googleapis.com/venkateshkannan-resume.appspot.com/Resume1.pdf', encoding: null }).then(dta => {
+                fs.writeFileSync(src, dta);
+                return true;
+            });
+        } catch (error) {
+            
+        }
+        
 
     }
 
@@ -57,6 +64,7 @@ router.route('/getResume').put((req, res) => {
         var stat = fs.statSync(output);
         res.setHeader('Content-Length', stat.size);
         res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Access-Control-Expose-Headers','Content-Disposition');
         res.setHeader('Content-Disposition', 'attachment; filename=venkatesh_kannan.pdf');
         file.pipe(res);
     })
