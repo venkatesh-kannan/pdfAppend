@@ -29,10 +29,13 @@ router.route('/getResume').put((req, res) => {
     let src;
     const output = path.join(__dirname, '/outputFile.pdf');
 
-    async function downloadPDF(pdfURL, outputFilename) {
+    function downloadPDF(pdfURL, outputFilename) {
         src = path.join(__dirname, outputFilename);
-        let pdfBuffer = await request.get({ uri: pdfURL, encoding: null });
-        fs.writeFileSync(src, pdfBuffer);
+        return request.get({ uri: pdfURL, encoding: null }).then(dta => {
+            fs.writeFileSync(src, dta);
+            return true;
+        });
+
     }
 
     downloadPDF(url, '/resume.pdf').then(dta => {
@@ -40,7 +43,7 @@ router.route('/getResume').put((req, res) => {
         let joiningDate = moment("2015-05-18");
         let currentDate = moment();
         let diff = currentDate.diff(joiningDate, 'years', true).toFixed(1);
-        console.log(diff,' years experience on ',moment().format('YYYY-MM-DD'));
+        console.log(diff, ' years experience on ', moment().format('YYYY-MM-DD'));
         const pdfDoc = new HummusRecipe(src, output);
         pdfDoc
             .editPage(1)
