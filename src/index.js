@@ -19,9 +19,7 @@ app.use(function (req, res, next) {
     next();
 });
 
-
-router.route('/getResume').put((req, res) => {
-    let url = req.body.url
+router.route('/getResume').get((req, res) => {
     try {
         fs.unlinkSync(path.join(__dirname, '/outputFile.pdf'));
     } catch (error) {
@@ -30,22 +28,19 @@ router.route('/getResume').put((req, res) => {
     let src;
     const output = path.join(__dirname, '/outputFile.pdf');
 
-    function downloadPDF(pdfURL, outputFilename) {
+    function downloadPDF(outputFilename) {
         src = path.join(__dirname, outputFilename);
         try {
-            return request.get({ uri: 'https://storage.googleapis.com/venkateshkannan-resume.appspot.com/Resume1.pdf', encoding: null }).then(dta => {
+            return request.get({ uri: 'https://firebasestorage.googleapis.com/v0/b/venkatesh-kannan.appspot.com/o/venkatesh-2.pdf?alt=media&token=52587cc2-b85c-4f27-a37b-bf48c5cc24e1', encoding: null }).then(dta => {
                 fs.writeFileSync(src, dta);
                 return true;
             });
         } catch (error) {
             
         }
-        
-
     }
 
-    downloadPDF(url, '/resume.pdf').then(dta => {
-
+    downloadPDF('/resume.pdf').then(dta => {
         let joiningDate = moment("2015-05-18");
         let currentDate = moment();
         let diff = currentDate.diff(joiningDate, 'years', true).toFixed(1);
@@ -53,7 +48,7 @@ router.route('/getResume').put((req, res) => {
         const pdfDoc = new HummusRecipe(src, output);
         pdfDoc
             .editPage(1)
-            .text(diff, 408, 99, {
+            .text(diff, 408, 100, {
                 color: '#000000',
                 fontSize: 9,
                 font: 'Arial',
@@ -68,14 +63,6 @@ router.route('/getResume').put((req, res) => {
         file.pipe(res);
     })
 });
-
-router.route('/').get((req, res) => {
-res.send('Hello there')
-});
-
-router.route('/getResume').get((req, res) => {
-    res.redirect('https://venkatesh-kannan.web.app/')
-    });
 
 app.use('/', router);
 
