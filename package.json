@@ -25,7 +25,7 @@
     "cors": "^2.8.5",
     "express": "^4.16.4",
     "hummus-recipe": "^1.9.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "request": "^2.88.0",
     "request-promise-native": "^1.0.8"
   },
